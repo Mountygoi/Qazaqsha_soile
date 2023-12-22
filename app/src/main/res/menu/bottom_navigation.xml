@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:id="@+id/nav_study"
+      android:icon="@drawable/studyy"
+      android:title="Оқу" />
+    <item android:id="@+id/nav_quiz"
+        android:icon="@drawable/quizz"
+        android:title="Тест"/>
+    <item android:id="@+id/nav_men"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="Мен"/>
+</menu>

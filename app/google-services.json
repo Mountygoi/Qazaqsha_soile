@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "639936431474",
+    "project_id": "qazaqsha-soile",
+    "storage_bucket": "qazaqsha-soile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639936431474:android:20a03b04a540f0ee1e49eb",
+        "android_client_info": {
+          "package_name": "com.example.qazaqshasoile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU9sV0o5uqu4LzfH-7mVmV1ZHSVZIN7pI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
