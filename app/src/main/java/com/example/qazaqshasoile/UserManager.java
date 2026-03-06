@@ -60,8 +60,9 @@ public class UserManager extends AppCompatActivity {
                     if(task.isSuccessful()){
                         if(Objects.requireNonNull(mAuth.getCurrentUser()).isEmailVerified()){
                             Toast.makeText(UserManager.this,   "Қош келдіңіз!",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(UserManager.this,MainActivity.class);
+                            Intent intent = new Intent(UserManager.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }else {
                             Toast.makeText(UserManager.this,"Сіз өзіңіздің поштаңызды растамыдыңыз !",Toast.LENGTH_SHORT).show();
                         }

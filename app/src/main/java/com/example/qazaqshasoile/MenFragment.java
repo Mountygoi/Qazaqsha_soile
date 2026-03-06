@@ -24,24 +24,26 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 public class MenFragment extends Fragment {
 
-MainActivity mainActivity;
-String name,email;
-TextView imya,pochta,zhana;
-
-
+    MainActivity mainActivity;
+    String name, email;
+    TextView imya, pochta, zhana;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_men, container, false);
 
+        imya = rootView.findViewById(R.id.imya);
+        pochta = rootView.findViewById(R.id.poshta);
+        zhana = rootView.findViewById(R.id.zhana);
         Button logout = rootView.findViewById(R.id.logout);
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
-        if(firebaseUser!=null) {
+
+        if (firebaseUser != null) {
             String userID = firebaseUser.getUid();
 
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
@@ -51,20 +53,24 @@ TextView imya,pochta,zhana;
                     name = snapshot.child("username").getValue(String.class);
                     email = firebaseUser.getEmail();
 
-                    imya.setText(name);
-                    pochta.setText(email);
-
+                    if (name != null) {
+                        imya.setText(name);
+                    } else {
+                        imya.setText("Имя не задано");
+                    }
+                    if (email != null) {
+                        pochta.setText(email);
+                    } else {
+                        pochta.setText("Почта не задана");
+                    }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Toast.makeText(requireContext(), "Ошибка при получении данных", Toast.LENGTH_SHORT).show();
                 }
-            });        }
-        zhana = rootView.findViewById(R.id.zhana);
-        imya = rootView.findViewById(R.id.imya);
-        pochta = rootView.findViewById(R.id.poshta);
-        mainActivity = (MainActivity)getActivity();
+            });
+        }
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,37 +79,40 @@ TextView imya,pochta,zhana;
                 goToUserManagerActivity();
             }
         });
-       zhana.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               auth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                           @Override
-                           public void onSuccess(Void unused) {
-                               Toast.makeText(requireContext(),"Сіздің поштаңызға сілтеме жіберілді!",Toast.LENGTH_SHORT).show();
-                               ;
-                           }
-                       })
-                       .addOnFailureListener(new OnFailureListener() {
-                           @Override
-                           public void onFailure(@NonNull Exception e) {
-                               Toast.makeText(requireContext(),"Қате : " + e.getMessage(),Toast.LENGTH_SHORT).show();
-                           }
-                       });
-           }
-       });
 
+        zhana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (email != null) {
+                    auth.sendPasswordResetEmail(email)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(requireContext(), "Сіздің поштаңызға сілтеме жіберілді!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(requireContext(), "Қате: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(requireContext(), "Ошибка: пользователь не найден", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return rootView;
     }
+
     private void goToUserManagerActivity() {
         Intent intent = new Intent(getActivity(), UserManager.class);
-intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-
         getActivity().finish();
     }
 }
-
 
 
 

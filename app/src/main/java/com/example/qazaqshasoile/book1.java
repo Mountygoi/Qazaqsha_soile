@@ -1,9 +1,9 @@
 package com.example.qazaqshasoile;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,7 @@ TextView count;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book1, container, false);
+        ImageView backk = view.findViewById(R.id.backk);
         count = view.findViewById(R.id.counter);
         count.setText(String.valueOf(i+1));
         ImageView next = view.findViewById(R.id.next);
@@ -58,7 +59,14 @@ TextView count;
                     }        }
             });
 
-
+        backk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment book = new Books();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, book).addToBackStack(null).commit();
+            }
+        });
 
 
 

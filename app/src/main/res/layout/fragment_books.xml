@@ -12,7 +12,9 @@
         android:layout_height="200sp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
+        android:layout_marginEnd="-20dp"
         android:src="@drawable/q1"
+        app:layout_constraintEnd_toStartOf="@+id/a1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,10 +22,12 @@
         android:id="@+id/a1"
         android:layout_width="200sp"
         android:layout_height="200sp"
+        android:layout_marginStart="-20dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/a1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/q1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -32,7 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:src="@drawable/k1"
+        app:layout_constraintEnd_toStartOf="@+id/j1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/q1" />
 
@@ -40,10 +46,12 @@
         android:id="@+id/j1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="50dp"
         android:src="@drawable/j1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/k1"
         app:layout_constraintTop_toBottomOf="@+id/a1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,16 +53,31 @@ class DefaultRegistrationManagerFactory implements RegistrationManagerFactory {
         }
         @Override
         public void registerUser() {
-            mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-                Objects.requireNonNull(mAuth.getCurrentUser()).sendEmailVerification().addOnCompleteListener(task -> {
-                    String smAuth = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-                    HelperClass helperClass = new HelperClass(email, user, password);
-                    reference.child(smAuth).setValue(helperClass);
-                    Toast.makeText(context, "Сіз сәтті тіркелдіңіз! , Поштаңызға сілтеме жіберілді", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, UserManager.class);
-                    context.startActivity(intent);
-                });
-            }).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(authResult -> {
+                        String smAuth = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+                        HelperClass helperClass = new HelperClass(email, user, password);
+                        reference.child(smAuth).setValue(helperClass)
+                                .addOnCompleteListener(dbTask -> {
+                                    if (dbTask.isSuccessful()) {
+                                        Objects.requireNonNull(mAuth.getCurrentUser()).sendEmailVerification()
+                                                .addOnCompleteListener(task -> {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(context, "Сіз сәтті тіркелдіңіз! Поштаңызға сілтеме жіберілді", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(context, UserManager.class);
+                                                        context.startActivity(intent);
+                                                    } else {
+                                                        Toast.makeText(context, "Ошибка при отправке письма для подтверждения: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                    } else {
+                                        Toast.makeText(context, "Ошибка при записи данных в базу: " + dbTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(context, "Ошибка при регистрации: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
+
+
     }
 }

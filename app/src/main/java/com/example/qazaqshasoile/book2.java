@@ -4,6 +4,7 @@ import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ public class book2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book2, container, false);
+        ImageView backk2 = view.findViewById(R.id.backk2);
         count = view.findViewById(R.id.counter);
         count.setText(String.valueOf(i+1));
         ImageView next = view.findViewById(R.id.next);
@@ -56,6 +58,15 @@ public class book2 extends Fragment {
                     imageViews[i].setVisibility(View.VISIBLE);
 
                 }        }
+        });
+
+        backk2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment book = new Books();
+                FragmentTransaction fragmentTransaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container, book).addToBackStack(null).commit();
+            }
         });
 
 
